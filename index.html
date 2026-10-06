@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andrew Hinh — Electrical Engineering Portfolio</title>
+<meta name="description" content="Andrew Hinh, UCLA electrical engineering student: PCB design, embedded systems, UAV electronics, and instrument control. Projects, experience, and résumé.">
+<meta name="theme-color" content="#EDEEE9">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='%231C6E8C' stroke='%231B2430' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDEEE9;
+    --paper-line:#D6D9D1;
+    --ink:#1B2430;
+    --ink-soft:#4B5563;
+    --blueprint:#1C6E8C;
+    --blueprint-deep:#144F63;
+    --signal:#E8A93B;
+    --card-bg:#FFFFFF;
+    --radius:2px;
+    --maxw:1080px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    background-image:
+      linear-gradient(var(--paper-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+    background-size:28px 28px;
+  }
+
+  a{color:inherit; text-decoration:none;}
+
+  .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--blueprint-deep);
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px; padding:0 6vw;
+    border-bottom:1px solid var(--ink);
+  }
+  nav::before{content:""; position:absolute; inset:0; z-index:-1; background:rgba(237,238,233,0.9); backdrop-filter:blur(6px);}
+  section, header.hero, footer{scroll-margin-top:64px;}
+  .nav-mark{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700; font-size:1.05rem;
+  }
+  .nav-mark .dot{
+    width:10px; height:10px; border-radius:50%;
+    background:var(--blueprint); border:2px solid var(--ink);
+  }
+  .nav-links{display:flex; gap:2.4rem;}
+  .nav-links a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--ink); position:relative; padding-bottom:4px;
+  }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:0;
+    width:0%; height:2px; background:var(--blueprint);
+    transition:width 0.25s ease;
+  }
+  .nav-links a:hover::after{width:100%;}
+  .nav-toggle{display:none;}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    max-width:var(--maxw); margin:0 auto;
+    padding:9vw 6vw 6vw;
+    position:relative;
+  }
+  .sheet-meta{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    margin-bottom:3rem; flex-wrap:wrap; gap:1rem;
+  }
+  .sheet-meta .label span{display:block; color:var(--ink-soft); text-transform:none; font-size:0.72rem;}
+
+  /* Circular profile photo, styled to match the card/hover shadow language
+     used elsewhere on the page (project-card:hover uses the same offset shadow).
+     Sized up closer to the gallery photos and centered above the name. */
+  .headshot{
+    width:240px;
+    height:240px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid var(--ink);
+    box-shadow:4px 4px 0 var(--blueprint);
+    display:block;
+    margin:0 auto 1.8rem;
+  }
+
+  h1.name{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(2.6rem, 8vw, 5.2rem);
+    line-height:0.98;
+    letter-spacing:-0.01em;
+  }
+  h1.name .accent{color:var(--blueprint);}
+
+  .role-line{
+    display:flex; align-items:center; gap:14px;
+    margin-top:1.4rem;
+  }
+  .role-line .rule{flex:0 0 40px; height:2px; background:var(--ink);}
+  .role{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:clamp(0.95rem, 2vw, 1.15rem);
+    color:var(--ink-soft);
+  }
+
+  .hero-note{
+    margin-top:2.6rem;
+    max-width:560px;
+    background:var(--card-bg);
+    border:1px solid var(--ink);
+    border-radius:var(--radius);
+    padding:1.4rem 1.6rem;
+    font-size:0.98rem;
+    line-height:1.6;
+    color:var(--ink-soft);
+    position:relative;
+  }
+  .hero-note::before{
+    content:"NOTE";
+    position:absolute; top:-11px; left:16px;
+    background:var(--paper);
+    padding:0 8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem; letter-spacing:0.14em;
+    color:var(--blueprint-deep);
+  }
+
+  .hero-actions{margin-top:2.2rem; display:flex; gap:1rem; flex-wrap:wrap;}
+  .btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem; text-transform:uppercase; letter-spacing:0.06em;
+    padding:0.85rem 1.6rem;
+    border-radius:var(--radius);
+    border:1px solid var(--ink);
+    transition:all 0.2s ease;
+  }
+  .btn.primary{background:var(--ink); color:var(--paper);}
+  .btn.primary:hover{background:var(--blueprint-deep); border-color:var(--blueprint-deep);}
+  .btn.ghost:hover{background:var(--ink); color:var(--paper);}
+
+  /* ---------- HERO GALLERY (fills the empty right side) ---------- */
+  .hero-flex{
+    display:flex;
+    align-items:flex-start;
+    gap:2.5rem;
+    flex-wrap:wrap;
+  }
+  .hero-left{
+    flex:1 1 460px;
+    min-width:0;
+  }
+  .hero-gallery{
+    flex:1 1 320px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+    gap:1rem;
+    align-self:stretch;
+    min-height:340px;
+  }
+  .hero-gallery figure{
+    margin:0;
+    border:1px solid var(--ink);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:4px 4px 0 var(--blueprint);
+    min-height:150px;
+  }
+  .hero-gallery img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  @media (max-width: 900px){
+    .hero-gallery{flex-basis:100%; min-height:280px;}
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{
+    max-width:var(--maxw); margin:0 auto;
+    padding:5.5rem 6vw;
+    border-top:1px solid var(--paper-line);
+  }
+  .section-head{
+    display:flex; align-items:baseline; gap:16px;
+    margin-bottom:2.6rem;
+  }
+  .section-head .idx{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--blueprint); font-size:0.85rem;
+  }
+  .section-head h2{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:clamp(1.6rem, 3.2vw, 2.3rem);
+  }
+  .section-head .rule{
+    flex:1; height:1px; background:var(--paper-line);
+    position:relative; top:2px;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid; grid-template-columns:1.3fr 1fr; gap:3rem;
+  }
+  .about-body p{color:var(--ink-soft); line-height:1.75; margin-bottom:1.1rem; font-size:1rem;}
+  .about-body p .fill{color:var(--ink); font-style:italic;}
+
+  .spec-table{
+    border:1px solid var(--ink); border-radius:var(--radius);
+    background:var(--card-bg);
+    align-self:start;
+  }
+  .spec-row{
+    display:flex; justify-content:space-between;
+    padding:0.85rem 1.1rem;
+    border-bottom:1px solid var(--paper-line);
+    font-size:0.88rem;
+  }
+  .spec-row:last-child{border-bottom:none;}
+  .spec-row .k{font-family:'IBM Plex Mono', monospace; color:var(--ink-soft); text-transform:uppercase; font-size:0.72rem; letter-spacing:0.06em;}
+  .spec-row .v{font-weight:500; text-align:right;}
+
+  /* ---------- PORTFOLIO ---------- */
+  .project-grid{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:1.6rem;
+  }
+  .project-card{
+    background:var(--card-bg);
+    border:1px solid var(--ink);
+    border-radius:var(--radius);
+    padding:1.7rem;
+    display:flex; flex-direction:column; gap:0.9rem;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .project-card:hover{
+    transform:translateY(-4px);
+    box-shadow:6px 6px 0 var(--blueprint);
+  }
+  .project-card .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--blueprint-deep);
+    border:1px solid var(--blueprint-deep);
+    border-radius:100px;
+    padding:0.2rem 0.7rem;
+    width:fit-content;
+  }
+  .project-card h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:1.2rem; font-weight:600;
+  }
+  .project-card p{color:var(--ink-soft); font-size:0.92rem; line-height:1.6;}
+  .project-card .links{display:flex; gap:1.2rem; margin-top:auto; padding-top:0.4rem;}
+  .project-card .links a{
+    font-family:'IBM Plex Mono', monospace; font-size:0.76rem;
+    text-transform:uppercase; letter-spacing:0.05em;
+    border-bottom:1px solid var(--ink);
+  }
+
+  .project-card details{margin-top:auto; padding-top:0.4rem; font-size:0.9rem; color:var(--ink-soft); line-height:1.6;}
+  .project-card summary{cursor:pointer; font-family:'IBM Plex Mono', monospace; font-size:0.76rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink); width:fit-content; border-bottom:1px solid var(--ink);}
+  .project-card details p{margin-top:0.7rem; font-size:0.9rem;}
+  .project-card details strong{color:var(--ink);}
+  .tl-photo{margin:0.9rem 0 0; max-width:420px;}
+  .tl-photo img{width:100%; height:auto; display:block; border:1px solid var(--ink); box-shadow:4px 4px 0 var(--blueprint);}
+  .tl-photo figcaption{font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--ink-soft); margin-top:0.5rem;}
+
+  /* ---------- EXPERIENCE ---------- */
+  .timeline{position:relative; padding-left:2rem;}
+  .timeline::before{
+    content:""; position:absolute; left:5px; top:6px; bottom:6px;
+    width:1px; background:var(--paper-line);
+  }
+  .tl-item{position:relative; padding-bottom:2.6rem;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:""; position:absolute; left:-2rem; top:4px;
+    width:11px; height:11px; border-radius:50%;
+    background:var(--paper); border:2px solid var(--blueprint);
+  }
+  .tl-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    flex-wrap:wrap; gap:0.4rem; margin-bottom:0.5rem;
+  }
+  .tl-head h3{font-family:'Space Grotesk', sans-serif; font-size:1.15rem; font-weight:600;}
+  .tl-head .dates{font-family:'IBM Plex Mono', monospace; font-size:0.78rem; color:var(--ink-soft);}
+  .tl-org{font-size:0.9rem; color:var(--blueprint-deep); font-weight:500; margin-bottom:0.6rem;}
+  .tl-item ul{padding-left:1.1rem; color:var(--ink-soft); font-size:0.92rem; line-height:1.65;}
+
+  /* ---------- FOOTER / CONTACT ---------- */
+  footer{
+    max-width:var(--maxw); margin:0 auto;
+    padding:4.5rem 6vw 5rem;
+    border-top:1px solid var(--ink);
+    display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:2rem;
+  }
+  footer h2{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:clamp(1.8rem, 4vw, 2.6rem);
+    max-width:480px; line-height:1.15;
+  }
+  .contact-list{display:flex; flex-direction:column; gap:0.6rem; align-items:flex-end;}
+  .contact-list a{
+    font-family:'IBM Plex Mono', monospace; font-size:0.85rem;
+    border-bottom:1px solid transparent;
+  }
+  .contact-list a:hover{border-bottom-color:var(--ink);}
+
+  .fine-print{
+    max-width:var(--maxw); margin:0 auto;
+    padding:1.5rem 6vw 3rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem; color:var(--ink-soft);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 760px){
+    .nav-links{
+      position:fixed; top:64px; right:0; bottom:0; visibility:hidden;
+      background:var(--paper);
+      flex-direction:column; gap:0; width:100%;
+      transform:translateX(100%);
+      transition:transform 0.25s ease, visibility 0.25s;
+      border-top:1px solid var(--ink);
+      padding:2rem 6vw;
+    }
+    .nav-links.open{transform:translateX(0); visibility:visible;}
+    .nav-links a{padding:1rem 0; border-bottom:1px solid var(--paper-line); width:100%;}
+    .nav-toggle{
+      display:block; background:none; border:1px solid var(--ink);
+      border-radius:var(--radius); padding:0.5rem 0.7rem;
+      font-family:'IBM Plex Mono', monospace; cursor:pointer;
+    }
+    .about-grid{grid-template-columns:1fr;}
+    .project-grid{grid-template-columns:1fr;}
+    footer{flex-direction:column; align-items:flex-start;}
+    .contact-list{align-items:flex-start;}
+  }
+
+  /* reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+
+  :focus-visible{outline:2px solid var(--blueprint); outline-offset:3px;}
+
+  /* ---------- BOARD THEME ---------- */
+  :root{--board:#0B2A47; --board-2:#113A60; --copper:#D9964B; --copper-lt:#F0BE82; --mask:#B9C9D8;}
+  .sheet-meta .label{border:1px solid var(--ink); background:var(--card-bg); padding:0.5rem 0.9rem;}
+  .sheet-meta .label span{color:var(--ink); font-weight:500;}
+  .headshot{box-shadow:0 0 0 6px var(--paper), 0 0 0 8px var(--copper);}
+  .trace{display:block; width:100%; max-width:var(--maxw); height:40px; margin:0 auto; padding:0 6vw;}
+  .trace path{fill:none; stroke:var(--copper); stroke-width:3; vector-effect:non-scaling-stroke; stroke-dasharray:1; stroke-dashoffset:1; animation:draw 2.2s ease forwards 0.3s;}
+  .trace circle{fill:var(--paper); stroke:var(--copper); stroke-width:2; vector-effect:non-scaling-stroke;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @media (prefers-reduced-motion:reduce){.trace path{animation:none; stroke-dashoffset:0;}}
+  #portfolio{background:var(--board); color:#EAF1F7; border-top:none; box-shadow:0 0 0 100vmax var(--board); clip-path:inset(0 -100vmax);
+    background-image:radial-gradient(rgba(240,190,130,.16) 1px, transparent 1.5px); background-size:22px 22px;}
+  #portfolio .section-head h2{color:#fff;} #portfolio .section-head .idx{color:var(--copper-lt);} #portfolio .section-head .rule{background:var(--copper);}
+  .project-grid{align-items:start;}
+  .project-card:has(details[open]){grid-column:1/-1;}
+  .project-card{background:var(--board-2); border-color:var(--copper); position:relative;}
+  .project-card::before,.project-card::after{content:""; position:absolute; top:10px; width:8px; height:8px; border-radius:50%; border:2px solid var(--copper); background:var(--board);}
+  .project-card::before{right:34px;} .project-card::after{right:14px;}
+  .project-card:hover{box-shadow:6px 6px 0 var(--copper);}
+  .project-card h3{color:#fff;} .project-card p, .project-card details{color:var(--mask);}
+  .project-card .tag{color:var(--copper-lt); border-color:var(--copper-lt);}
+  .project-card summary{color:#fff; border-bottom-color:var(--copper-lt);}
+  .project-card details strong{color:var(--copper-lt);}
+  .fig-row{display:flex; gap:1rem; flex-wrap:wrap; margin-top:0.9rem;}
+  .fig-row figure{flex:1 1 240px; margin:0; background:#fff; border:1px solid var(--copper);}
+  .fig-row img{width:100%; height:auto; display:block;}
+  .fig-row figcaption{font-family:'IBM Plex Mono', monospace; font-size:0.68rem; color:var(--board); background:var(--copper-lt); padding:0.3rem 0.6rem; text-transform:uppercase; letter-spacing:0.06em;}
+  .tl-org{font-family:'IBM Plex Mono', monospace; font-size:0.8rem;}
+
+  /* ---------- VIVID LAYER ---------- */
+  header.hero{position:relative; overflow:hidden;} header.hero>*{position:relative; z-index:1;} header.hero>svg.bg{position:absolute; inset:0; width:100%; height:100%; z-index:0;}
+  .accent{background:linear-gradient(90deg,var(--blueprint),var(--copper)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .badge{display:inline-flex; align-items:center; gap:.55rem; font-family:'IBM Plex Mono',monospace; font-size:.76rem; background:var(--ink); color:#fff; padding:.45rem .9rem; border-radius:99px; margin-bottom:1.1rem;}
+  .badge i,.now{animation:pulse 1.8s infinite;} .badge i{width:9px; height:9px; border-radius:50%; background:#4ADE80;}
+  .badge.open{background:#fff; color:var(--ink);}
+  @keyframes pulse{50%{opacity:.35;}}
+  .now{display:inline-block; margin-left:.6rem; font-family:'IBM Plex Mono',monospace; font-size:.65rem; background:#4ADE80; color:var(--ink); padding:.1rem .4rem; border-radius:3px;}
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); max-width:var(--maxw); margin:1.5rem auto 0; background:var(--board); border-top:4px solid var(--copper); box-shadow:0 0 0 1px var(--board);}
+  .stats div{padding:1.6rem 1rem; text-align:center; border-right:1px solid rgba(240,190,130,.25);} .stats div:last-child{border:0;}
+  .stats b{display:block; font-family:'Space Grotesk',sans-serif; font-size:2.6rem; color:var(--copper-lt); line-height:1;}
+  .stats span{font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--mask); text-transform:uppercase; letter-spacing:.06em;}
+  .cover{height:180px; margin-bottom:1rem; border:1px solid var(--copper); overflow:hidden; background:linear-gradient(135deg,#0F4C75,#1C6E8C);}
+  .cover img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s;} .project-card:hover .cover img{transform:scale(1.06);}
+  .cover svg{width:100%; height:100%; padding:26px; stroke:var(--copper-lt); fill:none; stroke-width:2;}
+  .chips{display:flex; flex-wrap:wrap; gap:.4rem; margin:.2rem 0 .8rem;} .chips span{font-family:'IBM Plex Mono',monospace; font-size:.68rem; color:var(--board); background:var(--copper-lt); padding:.15rem .5rem; border-radius:3px;}
+  #skills{max-width:var(--maxw); margin:0 auto;}
+  .edu{display:flex; flex-wrap:wrap; gap:.5rem 1.4rem; align-items:center; padding:1.1rem 1.4rem; background:var(--blueprint-deep); color:#fff; margin-bottom:1.4rem; font-family:'IBM Plex Mono',monospace; font-size:.82rem;} .edu b{font-family:'Space Grotesk',sans-serif; font-size:1.1rem; flex-basis:100%;}
+  .skill-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1.2rem;}
+  .skill{--c:var(--blueprint); background:var(--card-bg); border:1px solid var(--ink); border-top:6px solid var(--c); padding:1.2rem 1.3rem;}
+  .skill.c2{--c:var(--copper);} .skill.c3{--c:#3FA37A;} .skill.c4{--c:#C2517A;}
+  .skill h3{font-family:'Space Grotesk',sans-serif; margin-bottom:.8rem;} .skill p{display:flex; flex-wrap:wrap; gap:.45rem;}
+  .skill span{font-size:.82rem; padding:.25rem .65rem; border:1.5px solid var(--c); border-radius:99px; transition:.2s;} .skill span:hover{background:var(--c); color:#fff;}
+  .tl-item.nasa::before{background:#E03C31; border-color:#E03C31;}
+  .tl-item.nasa .tl-org::before{content:"NASA"; margin-right:.5rem; background:#E03C31; color:#fff; padding:.1rem .45rem; border-radius:3px; font-size:.68rem;}
+  footer#contact{background:linear-gradient(135deg,var(--paper),#DCE9EE);}
+  .js .project-card,.js .tl-item,.js .skill{opacity:0; transform:translateY(22px); transition:opacity .6s, transform .6s;} .js .in{opacity:1; transform:none;}
+  @media (max-width:760px){.stats{grid-template-columns:repeat(2,1fr);} .skill-grid{grid-template-columns:1fr;}}
+  @media (prefers-reduced-motion:reduce){header.hero>svg.bg circle[r="5"],.badge i,.now{animation:none; display:none;}}
+  .cover.fit img{object-fit:contain;}
+  .tl-photo.wide{max-width:680px;} .tl-photo.wide img{box-shadow:none;}
+  .tl-item .fig-row{margin-top:1rem;} 
+  .fig-row{flex-wrap:nowrap; align-items:flex-start;}
+  .fig-row figure{flex:0 1 calc(var(--ar,1.4) * 300px); min-width:0;}
+  .fig-row img{width:100%; height:auto; display:block;}
+  @media (max-width:700px){.fig-row{flex-wrap:wrap;} .fig-row figure{flex:1 1 100%;}}
+  /* ---------- WIDE LAYOUT ---------- */
+  :root{--maxw:1400px;}
+  nav{padding-left:4vw; padding-right:4vw;}
+  header.hero{padding:6vw 4vw 4vw;} section{padding-left:4vw; padding-right:4vw;} footer{padding-left:4vw; padding-right:4vw;}
+  .hero-flex{flex-wrap:nowrap; align-items:center; gap:4rem;}
+  .hero-left{flex:1.15 1 0;} .hero-gallery{flex:1 1 0; min-height:580px; gap:1.2rem;}
+  .about-grid{gap:4rem;}
+  @media (min-width:1100px){.project-grid{grid-template-columns:repeat(3,1fr);} .skill-grid{grid-template-columns:repeat(4,1fr);}}
+  .tl-item:has(.tl-photo,.fig-row){display:grid; grid-template-columns:minmax(0,1fr) minmax(240px,440px); column-gap:3rem; align-items:start;}
+  .tl-item:has(.tl-photo,.fig-row) > .tl-head, .tl-item:has(.tl-photo,.fig-row) > .tl-org, .tl-item:has(.tl-photo,.fig-row) > ul{grid-column:1;}
+  .tl-item:has(.tl-photo,.fig-row) > .tl-photo, .tl-item:has(.tl-photo,.fig-row) > .fig-row{grid-column:2; grid-row:1 / span 3; margin-top:0; max-width:none;}
+  @media (max-width:900px){.hero-flex{flex-wrap:wrap;} .hero-left,.hero-gallery{flex:1 1 100%;} .hero-gallery{min-height:320px;} .tl-item:has(.tl-photo,.fig-row){display:block;}}
+  /* ---------- TIGHTER SPACING ---------- */
+  .tl-item:has(.tl-photo,.fig-row){grid-template-rows:auto auto 1fr; align-content:start; row-gap:0;}
+  .tl-item .tl-photo img{max-height:320px; object-fit:cover; width:100%;}
+  .tl-item .tl-photo.wide img{max-height:none; object-fit:contain;}
+  .tl-item .tl-photo figcaption::after{content:" (click to enlarge)";}
+  .tl-item{padding-bottom:1.8rem;} .tl-head{margin-bottom:.15rem;} .tl-org{margin-bottom:.45rem;}
+  section{padding-top:3.5rem; padding-bottom:3.5rem;} .section-head{margin-bottom:2rem;}
+  header.hero{padding-top:3rem; padding-bottom:2rem;} .sheet-meta{margin-bottom:1.6rem;}
+  .stats{margin-top:1rem;} .about-body p{margin-bottom:.8rem;}
+  footer{padding-top:3rem; padding-bottom:3.5rem;}
+  .fig-row.stack{flex-direction:column;} .fig-row.stack figure{flex:none; width:100%;} .tl-item .fig-row.stack figcaption::after{content:" (click to enlarge)";}
+  dialog#lb{border:0; padding:0; background:transparent; max-width:96vw; max-height:96vh; overflow:visible;}
+  dialog#lb::backdrop{background:rgba(11,42,71,.9);}
+  #lb img{max-width:94vw; max-height:88vh; display:block; background:#fff; border:2px solid var(--copper); cursor:zoom-out;}
+  #lb button{position:fixed; top:12px; right:20px; font-size:2.2rem; line-height:1; background:none; border:0; color:#fff; cursor:pointer;}
+  .tl-photo img,.fig-row img,.hero-gallery img{cursor:zoom-in;}
+  .pair{display:grid; grid-template-columns:minmax(0,1fr) minmax(240px,440px); column-gap:3rem; align-items:start;}
+  .pair > .tl-item{grid-column:1; padding-bottom:1.2rem;} .pair > .tl-photo{grid-column:2; grid-row:1 / span 2; margin:0; max-width:none;}
+  .pair .tl-photo img{width:100%; max-height:300px; object-fit:cover;} .pair .tl-photo figcaption::after{content:" (click to enlarge)";}
+  @media (max-width:900px){.pair{display:block;}}
+  .more{margin-top:auto; align-self:flex-start; font-family:'IBM Plex Mono',monospace; font-size:.76rem; text-transform:uppercase; letter-spacing:.05em; background:none; color:#fff; border:1px solid var(--copper-lt); padding:.5rem 1rem; cursor:pointer; transition:.2s;}
+  .more:hover{background:var(--copper-lt); color:var(--board);}
+  dialog#pd{width:min(1100px,94vw); max-height:92vh; padding:0; border:2px solid var(--copper); background:var(--board); color:#EAF1F7; overflow:auto;}
+  dialog#pd::backdrop{background:rgba(5,20,36,.82); backdrop-filter:blur(3px);}
+  .pd-head{position:sticky; top:0; z-index:2; display:flex; align-items:center; gap:1rem 1.4rem; flex-wrap:wrap; padding:1rem 1.6rem; background:var(--board-2); border-bottom:2px solid var(--copper);}
+  .pd-title{font-family:'Space Grotesk',sans-serif; font-size:1.5rem; margin:0; color:#fff;} .pd-head .chips{margin:0;}
+  .pd-close{margin-left:auto; background:none; border:0; color:#fff; font-size:2.2rem; line-height:1; cursor:pointer;}
+  .pd-content{padding:1.4rem 1.8rem 2rem;}
+  .pd-content h4{font-family:'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:.07em; font-size:.8rem; color:var(--copper-lt); margin:1.5rem 0 .6rem; padding-bottom:.3rem; border-bottom:1px solid rgba(240,190,130,.3);}
+  .pd-content p,.pd-content li{color:var(--mask); line-height:1.7; font-size:.95rem;} .pd-content strong{color:#fff;}
+  .pd-content ul{padding-left:1.2rem; display:grid; gap:.5rem;} .pd-content .fig-row{margin-top:0;}
+  /* LSPACE tables: full-width row under the bullets, equal heights, no side gap */
+  .tl-item:has(.fig-row.stack){grid-template-columns:minmax(0,1fr) minmax(300px,540px);}
+  .fig-row.stack{flex-direction:row; margin-top:1rem;}
+  .fig-row.stack figure{flex:0 1 calc(var(--ar,1.4) * 300px); width:auto;}
+  @media (max-width:700px){.fig-row.stack{flex-direction:column;} .fig-row.stack figure{flex:none; width:100%;}}
+  /* center both dialogs (the global margin reset was stripping their auto margins) */
+  dialog#pd,dialog#lb{position:fixed; inset:0; margin:auto; height:fit-content;}
+  dialog#lb{width:fit-content;}
+  /* LSPACE figures: trade study + certificate share a row, verification matrix fills the row below */
+  .fig-row.stack{display:grid; grid-template-columns:2.012fr 1.295fr; gap:1rem; align-items:start;}
+  .fig-row.stack figure{width:auto; min-width:0;} .fig-row.stack figure:nth-child(3){grid-column:1 / -1;}
+  @media (max-width:700px){.fig-row.stack{grid-template-columns:1fr;} .fig-row.stack figure:nth-child(3){grid-column:auto;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-mark"><span class="dot"></span>AH</div>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">MENU</button>
+  <div class="nav-links" id="navLinks">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="chip" viewBox="0 0 64 64"><rect x="18" y="18" width="28" height="28"/><path d="M26 18V8M38 18V8M26 56V46M38 56V46M18 26H8M18 38H8M56 26H46M56 38H46"/><circle cx="32" cy="32" r="4"/></symbol><symbol id="quad" viewBox="0 0 64 64"><path d="M20 20L44 44M44 20L20 44"/><circle cx="14" cy="14" r="8"/><circle cx="50" cy="14" r="8"/><circle cx="14" cy="50" r="8"/><circle cx="50" cy="50" r="8"/><rect x="26" y="26" width="12" height="12"/></symbol></svg>
+<header class="hero" id="home">
+  <svg class="bg" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#D9964B" stroke-width="3" opacity=".4"><path id="p1" d="M0 120H260L320 60H700L760 120H1200"/><path id="p2" d="M0 560H340L400 620H820L880 540H1200"/><path id="p3" d="M1100 0V220L1040 280V700"/></g>
+    <g fill="#EDEEE9" stroke="#D9964B" stroke-width="3" opacity=".6"><circle cx="260" cy="120" r="7"/><circle cx="760" cy="120" r="7"/><circle cx="340" cy="560" r="7"/><circle cx="880" cy="540" r="7"/><circle cx="1040" cy="280" r="7"/></g>
+    <g fill="#1C6E8C"><circle r="5"><animateMotion dur="7s" repeatCount="indefinite"><mpath href="#p1"/></animateMotion></circle><circle r="5"><animateMotion dur="9s" repeatCount="indefinite"><mpath href="#p2"/></animateMotion></circle><circle r="5"><animateMotion dur="6s" repeatCount="indefinite"><mpath href="#p3"/></animateMotion></circle></g>
+  </svg>
+  <div class="sheet-meta">
+    <div class="label">Sheet 1/1<span>Andrew Hinh — Portfolio</span></div><div class="label">Rev<span>2026.10</span></div>
+    <div class="label">Location<span>Costa Mesa, CA</span></div>
+  </div>
+
+  <div class="hero-flex">
+    <div class="hero-left">
+      <div class="badge"><i></i>Now: Embedded Systems Intern, NASA AFRC</div>
+      <img src="headshot.jpg" alt="Andrew Hinh" class="headshot" width="240" height="240" />
+      <h1 class="name">Andrew <span class="accent">Hinh</span></h1>
+
+      <div class="role-line">
+        <div class="rule"></div>
+        <div class="role"> Electrical Engineering Student at UCLA </div>
+      </div>
+
+      <div class="hero-note">
+        Thank you for stopping by my personal website! Whether you're a recruiter, fellow engineer, friend, or a lost stranger — <span style="color:var(--ink); font-style:italic;"> I hope you are able to find what you're looking for.</span>
+      </div>
+
+      <div class="hero-actions">
+        <a href="#portfolio" class="btn primary">View Portfolio</a>
+        <a href="resume.pdf" class="btn ghost">Download Résumé</a>
+      </div>
+    </div>
+
+        <div class="hero-gallery">
+      <figure><img src="gallery-1.jpg" alt="Competition robot with belt drives and an aluminum frame" loading="lazy"></figure>
+      <figure><img src="gallery-2.jpg" alt="Breadboard circuit wired to a multimeter and laptop on a lab bench" loading="lazy"></figure>
+      <figure><img src="gallery-arduino.jpg" alt="Arduino Uno wired to a breadboard LCD, a heart-rate sensor strap, and a sensor board in 3D-printed enclosures" loading="lazy"></figure>
+      <figure><img src="gallery-4.jpg" alt="CAD render of a model rocket" loading="lazy"></figure>
+    </div>
+  </div>
+</header>
+<svg class="trace" viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 20H180L210 6H420L450 34H700L730 20H1000" pathLength="1"/><circle cx="180" cy="20" r="4"/><circle cx="450" cy="34" r="4"/><circle cx="730" cy="20" r="4"/></svg>
+
+<div class="stats">
+  <div><b data-n="2">0</b><span>NASA programs</span></div>
+  <div><b data-n="4">0</b><span>custom KiCad PCBs</span></div>
+  <div><b data-n="6">0</b><span>engineering projects</span></div>
+  <div><b data-n="20" data-s="+">0</b><span>students taught weekly</span></div>
+</div>
+
+<section id="about">
+  <div class="section-head">
+    <span class="idx">U1</span>
+    <h2>About Me</h2>
+    <div class="rule"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-body">
+      <p><span class="fill">I'm an electrical engineering student at UCLA from Costa Mesa, California. Robotics got me hooked on designing and building systems that interact with the physical world.</span></p>
+      <p><span class="fill">I'm currently an embedded systems intern at NASA Armstrong Flight Research Center, working on UAV alignment testing, radio links, and power hardware. On campus I research power converter control at UCLA's PEEC Lab and design PCBs for drones.</span></p>
+      <p><span class="fill">I'm open to internship and co-op opportunities in electrical engineering, and I'd love to talk about my work.</span></p>
+    </div>
+    <div class="spec-table">
+      <div class="spec-row"><span class="k">School</span><span class="v"> UCLA </span></div>
+      <div class="spec-row"><span class="k">Major</span><span class="v">Electrical Engineering</span></div>
+      <div class="spec-row"><span class="k">Class of</span><span class="v">2028</span></div>
+      <div class="spec-row"><span class="k">Focus</span><span class="v">Power Electronics, Embedded Systems, PCB Design, UAV Electronics</span></div>
+      <div class="spec-row"><span class="k">Tools</span><span class="v"> KiCad, Fusion 360, LTspice, MATLAB, Python</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio">
+  <div class="section-head">
+    <span class="idx">U2</span>
+    <h2>Portfolio</h2>
+    <div class="rule"></div>
+  </div>
+  <div class="project-grid">
+
+    <div class="project-card">
+      <div class="cover"><img src="img-drone-a.jpg" alt="Assembled quadcopter" loading="lazy"></div><span class="tag">Electronics</span>
+      <h3>Quadcopter Drone</h3><div class="chips"><span>Pixhawk 4</span><span>KV2550 motors</span><span>MG90 servos</span><span>Thrust testing</span></div>
+      <p>Payload-carrying quadcopter on a Pixhawk 4 flight controller with four KV2550 brushless motors, 4.5 in-pitch props, and a 5600 mAh battery. Two MG90 servos carry up to 1.5 lb (about 5 lb all-up), and bench thrust-vs-power testing picked the motor and prop combination.</p>
+<button class="more" type="button">Details</button><template><div class="fig-row"><figure style="--ar:1.292"><a href="img-drone-a.jpg" target="_blank" rel="noopener"><img src="img-drone-a.jpg" alt="Assembled quadcopter on a workbench" loading="lazy"></a><figcaption>Assembled build</figcaption></figure><figure style="--ar:1.911"><a href="img-drone-c.jpg" target="_blank" rel="noopener"><img src="img-drone-c.jpg" alt="CAD side view of the drone frame and landing legs" loading="lazy"></a><figcaption>CAD, side view</figcaption></figure><figure style="--ar:2.553"><a href="img-thrust-chart.jpg" target="_blank" rel="noopener"><img src="img-thrust-chart.jpg" alt="Thrust vs power comparison chart for motor and prop trials" loading="lazy"></a><figcaption>Thrust vs. power trials</figcaption></figure></div><h4>Overview</h4><p>Built around a Pixhawk 4 flight controller with an RC receiver and transmitter, aiming for fast, reliable takeoff and precise landing at a light all-up weight.</p><h4>Technical details</h4><ul><li><strong>Propulsion:</strong> Four KV2550 brushless motors with 4.5 in-pitch propellers, each driven by its own ESC and powered from a single 5600 mAh battery.</li><li><strong>Power distribution:</strong> Power comes through the custom PDU board: LM2596 buck converters supply 5V and 12V rails to the electronics and ESCs, with passthrough voltage for the flight controller.</li><li><strong>Payload:</strong> Two MG90 servos carry payloads up to 1.5 lb, bringing the total weight to about 5 lb. Wide landing legs keep landings stable over a 3 ft × 3 ft area.</li><li><strong>Weight reduction:</strong> Frame parts are pocketed with a triangular lattice to remove mass while keeping stiffness at the arms and deck.</li><li><strong>Motor/prop selection:</strong> Eight bench trials varied motor KV (1500 to 2550) and propeller diameter and pitch. An electronic speed potentiometer swept motor wattage while a bench scale read downward thrust.</li><li><strong>Efficiency metric:</strong> Thrust (g) was plotted against power (W); the slope is thrust per watt, so the steepest line gives the most thrust for the least power. Since power is current × voltage, that also means less current drawn and longer battery life at the same voltage. One trial was visibly steeper than the other seven.</li></ul><h4>Problem &amp; solution</h4><p><strong>Problem:</strong> Power from the PDU board to the flight controller, motors, ESCs, and RC receiver kept dropping out.</p><p><strong>Solution:</strong> Poor solder joints and loose ESC bullet connectors were the root cause. Resoldering the joints, adding heatshrink and tape to isolate the cables, and routing wires to prevent entanglement made the connections secure and stable.</p></template>
+    </div>
+
+    <div class="project-card">
+      <div class="cover"><img src="img-pdu-pcb.jpg" alt="PDU board layout" loading="lazy"></div><span class="tag"> PCB Design </span>
+      <h3>Power Distribution Unit Board</h3><div class="chips"><span>KiCad</span><span>LM2596</span><span>XT-60</span><span>2-layer PCB</span></div>
+      <p>Two-layer KiCad power distribution board with dual XT-60 LiPo inputs and two LM2596 buck converters that generate regulated 5V and 12V rails for the flight controller, electronics, and ESCs, plus battery passthrough.</p>
+<button class="more" type="button">Details</button><template><div class="fig-row"><figure style="--ar:1.432"><a href="img-pdu-schematic.jpg" target="_blank" rel="noopener"><img src="img-pdu-schematic.jpg" alt="KiCad schematic of the power distribution board" loading="lazy"></a><figcaption>Schematic</figcaption></figure><figure style="--ar:1.882"><a href="img-pdu-pcb.jpg" target="_blank" rel="noopener"><img src="img-pdu-pcb.jpg" alt="KiCad PCB layout of the power distribution board" loading="lazy"></a><figcaption>PCB layout</figcaption></figure></div><h4>Overview</h4><p>A general-purpose power distribution board for UAV electronics that stays agnostic to which battery packs and wiring (series or parallel) the team ends up using.</p><h4>Technical details</h4><ul><li><strong>Inputs/outputs:</strong> Two XT-60 connectors take LiPo battery inputs and one output connector distributes power, so packs can be swapped without re-wiring the board.</li><li><strong>Regulation:</strong> Two LM2596 buck (step-down) regulators, each with its inductor, diode, and input/output capacitors, generate the 5V and 12V rails for sensors, the flight controller, and ESCs.</li><li><strong>Passthrough:</strong> Battery voltage is passed through to the ESCs while the regulated rails feed the flight controller and other electronics.</li><li><strong>Schematic structure:</strong> Organized into labeled blocks (inputs, 5V buck, 12V buck, outputs) so each stage can be changed independently.</li><li><strong>PCB layout:</strong> Two layers with a ground plane and wide power traces and pours for the high-current paths, plus mounting-hole pads, designed in KiCad.</li></ul><h4>Problem &amp; solution</h4><p><strong>Problem:</strong> The battery packs, and whether they would be wired in parallel or series, were not decided, which made it hard to pick connectors and converters.</p><p><strong>Solution:</strong> A generalized board with modular component choices (LM2596 for general step-down conversion and XT-60 connectors for easy connections) so the design works across pack configurations.</p></template>
+    </div>
+
+    <div class="project-card">
+      <div class="cover fit"><img src="img-neck-pcb.jpg" alt="KiCad PCB layout of the neck brace IMU board" loading="lazy"></div><span class="tag"> PCB Design </span>
+      <h3>IMU NeckBrace PCB Design</h3><div class="chips"><span>MPU-6050</span><span>I2C</span><span>ESP32</span><span>KiCad</span><span>C++</span></div>
+      <p>MPU-6050 IMU breakout with an AP2112K 3.3V LDO, I2C pull-ups, and sensor decoupling on a triangular board that mates to a Jansen linkage. It feeds neck position data to a wearable that drives 12 pneumatic solenoid valves.</p>
+<button class="more" type="button">Details</button><template><div class="fig-row"><figure style="--ar:1.432"><a href="img-neck-schematic.jpg" target="_blank" rel="noopener"><img src="img-neck-schematic.jpg" alt="KiCad schematic of the MPU-6050 IMU breakout with LDO, sensor, and connector sections" loading="lazy"></a><figcaption>Schematic</figcaption></figure><figure style="--ar:0.789"><a href="img-neck-pcb.jpg" target="_blank" rel="noopener"><img src="img-neck-pcb.jpg" alt="KiCad PCB layout of the triangular IMU breakout with three mounting holes" loading="lazy"></a><figcaption>PCB layout</figcaption></figure><figure style="--ar:1.007"><a href="img-jansen-linkage.jpg" target="_blank" rel="noopener"><img src="img-jansen-linkage.jpg" alt="CAD of the Jansen linkage the IMU board mounts onto" loading="lazy"></a><figcaption>Jansen linkage (PCB mount)</figcaption></figure></div><h4>Overview</h4><p>A small sensor board for a medical wearable that senses real-time neck position and corrects cervical misalignment through 12 independently actuated pneumatic solenoid valves, controlled by an ESP32-based main board.</p><h4>Technical details</h4><ul><li><strong>Sensor:</strong> MPU-6050 (3-axis gyroscope plus 3-axis accelerometer) on I2C, with the address-select (AD0), interrupt (INT), and auxiliary I2C (XDA/XCL) pins broken out.</li><li><strong>Power:</strong> 5V from the main control board is regulated to 3.3V by an AP2112K-3.3 LDO with input and output capacitors, and a status LED with a 1 kΩ resistor.</li><li><strong>Decoupling:</strong> Bypass capacitors at the sensor supply, plus the capacitors on the MPU-6050 regulator and charge-pump outputs recommended in its datasheet.</li><li><strong>Bus circuitry:</strong> I2C pull-up resistors on SCL and SDA keep the bus timing clean over the cable run.</li><li><strong>Interface:</strong> A single 8-pin JST cable connector carries 5V, ground, I2C, auxiliary I2C, address select, and interrupt back to the main control board.</li><li><strong>Mechanical fit:</strong> A triangular outline with three mounting holes lets the board mount directly onto the Jansen linkage shown above. The hole pattern follows the linkage geometry set by the mechanical engineering team, so the electrical and mechanical subsystems fit together.</li></ul></template>
+    </div>
+
+    <div class="project-card">
+      <div class="cover fit"><img src="img-mouse-photo.jpg" alt="Assembled Micromouse with green PCB, Pololu motors, and wheels" loading="lazy"></div><span class="tag"> Robotics</span>
+      <h3>Micromouse PCB Design</h3><div class="chips"><span>3.3V LDO</span><span>H-bridge driver</span><span>IR array</span><span>KiCad</span></div>
+      <p>Maze-solving Micromouse PCB with a four-pair IR emitter/receiver wall sensor array, a dual H-bridge motor driver with encoder inputs, and a switched 3.3V LDO. Sensor traces avoid the motor lines, and a separate MGND plane keeps motor return currents out of the logic.</p>
+<button class="more" type="button">Details</button><template><div class="fig-row"><figure style="--ar:0.993"><a href="img-mouse-photo.jpg" target="_blank" rel="noopener"><img src="img-mouse-photo.jpg" alt="Assembled Micromouse" loading="lazy"></a><figcaption>Assembled board, version 1</figcaption></figure><figure style="--ar:1.092"><a href="img-mouse-schematic.jpg" target="_blank" rel="noopener"><img src="img-mouse-schematic.jpg" alt="Micromouse KiCad schematic" loading="lazy"></a><figcaption>Schematic</figcaption></figure><figure style="--ar:2.018"><a href="img-mouse-pcb.jpg" target="_blank" rel="noopener"><img src="img-mouse-pcb.jpg" alt="Micromouse PCB layout in KiCad" loading="lazy"></a><figcaption>PCB layout, Micromouse final version</figcaption></figure></div><h4>Overview</h4><p>A custom PCB that serves as both chassis and electronics for a maze-solving robot: sensing, motor drive, power, and a microcontroller on one board.</p><h4>Technical details</h4><ul><li><strong>Wall sensing:</strong> Four IR emitters and four IR receivers form the wall-detection array, with LED indicators for debugging.</li><li><strong>Motor drive:</strong> A dual H-bridge driver controls both drive motors, and encoder breakout pins feed wheel position back to the microcontroller.</li><li><strong>Power:</strong> A JST-connected battery passes through a power switch into a 3.3V LDO that supplies the digital and sensor rails.</li><li><strong>Interfaces:</strong> A reset button plus programming and serial headers on the board edge (NRST, SWDIO, SWCLK, and 3V3, GND, TX, RX).</li><li><strong>Noise control:</strong> IR receiver and emitter signal traces were routed so they never pass underneath the motor lines, preventing electromagnetic interference from motor noise.</li><li><strong>Grounding:</strong> The regulator is isolated on a separate MGND plane, so GND and MGND form defined return paths and high-current motor paths stay out of the signal ground.</li><li><strong>Revisions:</strong> Version 1 is the assembled board shown first; the final-version layout and schematic are alongside.</li></ul></template>
+    </div>
+
+    <div class="project-card">
+      <div class="cover fit"><img src="img-uav-pcb.jpg" alt="Assembled purple UAS at UCLA IMU board with ATmega328P and sensors" loading="lazy"></div><span class="tag"> PCB Design </span>
+      <h3>UAV IMU Board</h3><div class="chips"><span>ATmega328P-A</span><span>LSM303D</span><span>IAM-70392</span><span>FTDI + ICSP</span></div>
+      <p>Two-layer flight sensor board: ATmega328P-A at 3.3V with an LSM303D accelerometer/magnetometer (I2C) and an IAM-70392 gyroscope (SPI). FTDI auto-reset and ICSP headers give two programming paths, and bypass caps and a dedicated 3.3V rail keep the sensor bus clean.</p>
+      <button class="more" type="button">Details</button><template><div class="fig-row"><figure style="--ar:0.956"><a href="img-uav-pcb.jpg" target="_blank" rel="noopener"><img src="img-uav-pcb.jpg" alt="Assembled IMU board" loading="lazy"></a><figcaption>Assembled board</figcaption></figure><figure style="--ar:1.879"><a href="img-imu-schematic.jpg" target="_blank" rel="noopener"><img src="img-imu-schematic.jpg" alt="KiCad schematic of the IMU board" loading="lazy"></a><figcaption>Schematic</figcaption></figure><figure style="--ar:1.316"><a href="img-imu-pcb.jpg" target="_blank" rel="noopener"><img src="img-imu-pcb.jpg" alt="KiCad PCB layout of the IMU board" loading="lazy"></a><figcaption>PCB layout</figcaption></figure><figure style="--ar:3.670"><a href="img-imu-blocks.jpg" target="_blank" rel="noopener"><img src="img-imu-blocks.jpg" alt="Table of key hardware blocks" loading="lazy"></a><figcaption>Key hardware blocks</figcaption></figure></div><h4>Overview</h4><p>Flight sensor board for UAS at UCLA that combines an accelerometer, magnetometer, gyroscope, and a microcontroller, designed in KiCad. I also wrote the test procedures and acceptance criteria used to validate it before flight.</p><h4>Technical details</h4><ul><li><strong>MCU (U1):</strong> ATmega328P-A running at 3.3V with an external resonator (Y1) as the clock source.</li><li><strong>Accelerometer + magnetometer (U6):</strong> LSM303D on I2C with local decoupling.</li><li><strong>Gyroscope (U7):</strong> IAM-70392, SPI-capable (FSYNC, CS, SDI, SCLK, SDO, INT).</li><li><strong>FTDI header (J1):</strong> RXD, TXD, and DTR serial interface with auto-reset for field firmware updates.</li><li><strong>ICSP header (J2):</strong> MISO, MOSI, SCK, and RESET for direct in-circuit programming and bare-metal flashing.</li><li><strong>Reset network:</strong> R4 pull-up, C12, the DTR coupling capacitor, and tactile switch SW1 provide both manual and automatic reset.</li><li><strong>Signal integrity:</strong> Pull-up resistors sit near the sensor bus, a dedicated 3.3V rail avoids level shifting between the MCU and sensors, and bulk plus bypass capacitors sit at each sensor.</li><li><strong>Layout:</strong> Two layers: signal routing on top and ground on the bottom stitched with vias. Analog sensor ICs are grouped to cut analog/digital interference, and status LEDs D1 and D2 (green and red) use 1 kΩ current-limiting resistors.</li></ul><h4>Problem &amp; solution</h4><p><strong>Problem:</strong> The JST headers did not match the specific sensor and MCU pinouts.</p><p><strong>Solution:</strong> Cross-checked the datasheets for the ICSP and FTDI headers to prevent any physical wire swap.</p></template>
+    </div>
+
+    <div class="project-card">
+      <div class="cover fit" style="background:#fff"><img src="img-vtol-cad.jpg" alt="CAD model of the VTOL aircraft with long wings, twin tail, and lift booms" loading="lazy"></div>
+      <span class="tag"> Aerospace </span>
+      <h3>VTOL Drone Design</h3>
+      <div class="chips"><span>Fusion 360</span><span>ArduPilot</span><span>Pixhawk</span><span>ESCs</span><span>RC systems</span></div>
+      <p>VTOL airframe modeled in Fusion 360 with a carbon fiber rod frame and 3D-printed electronics housing. A Pixhawk running ArduPilot manages the vertical-to-forward-flight transition, with live video over a telemetry radio and a power distribution harness sized for a 2 lb payload.</p>
+      <button class="more" type="button">Details</button><template><div class="fig-row"><figure style="--ar:1.550"><a href="img-vtol-cad.jpg" target="_blank" rel="noopener"><img src="img-vtol-cad.jpg" alt="CAD model of the VTOL aircraft" loading="lazy"></a><figcaption>CAD model</figcaption></figure><figure style="--ar:0.750"><a href="img-vtol-esc.jpg" target="_blank" rel="noopener"><img src="img-vtol-esc.jpg" alt="Two 80A ESCs with black power cables and XT90 connectors on a workbench" loading="lazy"></a><figcaption>ESCs and power cabling</figcaption></figure></div><h4>Overview</h4><p>A vertical take-off and landing aircraft combining a fixed wing with lift motors on booms, so it can take off and land without a runway and cruise efficiently in forward flight.</p><h4>Technical details</h4><ul><li><strong>CAD:</strong> Full airframe modeled in Fusion 360: wings, tail, and four lift-motor booms.</li><li><strong>Structure:</strong> A carbon fiber rod frame forms the main structure, with 3D-printed parts for electronics housing and component placement.</li><li><strong>Flight controller:</strong> Pixhawk running ArduPilot firmware, configured and tuned for the aircraft.</li><li><strong>Control:</strong> ESCs, motors, and sensor feedback are integrated so the aircraft transitions stably between vertical and forward flight.</li><li><strong>Power:</strong> Power distribution and wiring architecture sized to support a 2 lb payload while keeping flight stable, with 80A-class ESCs and battery selection to match.</li><li><strong>Comms:</strong> A telemetry radio carries a live video feed, alongside RC systems for manual control.</li></ul></template>
+    </div>
+</div>
+</section>
+
+<section id="skills">
+  <div class="section-head"><span class="idx">U3</span><h2>Skills &amp; Education</h2><div class="rule"></div></div>
+  <div class="edu"><b>University of California, Los Angeles</b><span>B.S. Electrical Engineering</span><span>Expected 06/2028</span></div>
+  <div class="skill-grid">
+    <div class="skill c1"><h3>Languages</h3><p><span>C++</span><span>Java</span><span>Python</span><span>MATLAB</span><span>McCreator</span><span>Roblox Studio</span></p></div>
+    <div class="skill c2"><h3>Hardware</h3><p><span>Oscilloscope</span><span>Digital Multimeter</span><span>Electronic Load</span><span>DC Power Supply</span><span>Waveform Generator</span><span>AD2</span></p></div>
+    <div class="skill c3"><h3>Design &amp; Tools</h3><p><span>Circuit Design</span><span>PCB/PCBA Layout &amp; Design</span><span>Schematic Capture</span><span>Test Procedure Development</span><span>Root-Cause Troubleshooting</span><span>Technical Documentation</span><span>Control Systems</span><span>LTspice</span><span>KiCad</span><span>Altium</span><span>Soldering</span><span>STM32</span><span>Arduino</span></p></div>
+    <div class="skill c4"><h3>Mechanical</h3><p><span>Creo</span><span>Fusion 360</span><span>3D Printing</span><span>CNC Manufacturing</span><span>Rapid Prototyping</span><span>CAM</span><span>Drill Press</span></p></div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section-head">
+    <span class="idx">U4</span>
+    <h2>Experience</h2>
+    <div class="rule"></div>
+  </div>
+  <div class="timeline">
+
+    <div class="tl-item nasa">
+      <div class="tl-head">
+        <h3>Embedded Systems Intern</h3>
+        <span class="dates">August 2026 — Present</span><b class="now">NOW</b>
+      </div>
+      <div class="tl-org">NASA Armstrong Flight Research Center (AFRC), Edwards, CA · Flight Interactive System Technologies</div>
+      <ul>
+        <li>Resolved a magnet separation-distance failure in twist-to-release testing through root-cause analysis, raising holding force by up to 200 lbs for larger UAV reconnection tests.</li>
+        <li>Developing a long-range RF mesh radio test architecture linking UAVs and a ground station over 4 km, validating relative navigation data exchange across antenna gain and bandwidth conditions.</li>
+        <li>Analyzed LiDAR and computer vision data from 15 flight tests on a Raspberry Pi 5 to support precise UAV alignment.</li>
+        <li>Designed power distribution hardware with 12V-to-5V DC-DC buck converters for regulated power to sensor systems.</li>
+      </ul>
+      <figure class="tl-photo"><img src="nasa-afrc.jpg" alt="Orange and white aircraft in flight above a red and white delta-wing glider against a blue sky" width="618" height="495" loading="lazy"><figcaption>NASA AFRC</figcaption></figure>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-head">
+        <h3>Undergraduate Research Assistant</h3>
+        <span class="dates"> April 2026 — Present </span><b class="now">NOW</b>
+      </div>
+      <div class="tl-org"> Power Electronics and Energy Control Lab at UCLA </div>
+      <ul>
+        <li>Built a Python/PyVISA test automation GUI integrating six lab instruments (oscilloscope, DMM, e-load, PSU, PWM driver, thermal cameras), enabling consistent statistical data and an 85% efficiency sweep for step-down synchronous buck converters.</li>
+        <li>Interfaced with the instruments over RS-232 serial and USB, using Python remote sensing and instrument-control libraries.</li>
+        <li>Standardized remote test procedures in a simple GUI, supporting repeatable remote testing for 30+ students.</li>
+        <li>Investigating cycle-by-cycle digital control for faster dynamic voltage scaling than fixed-state sampling.</li>
+      </ul>
+      <figure class="tl-photo"><img src="img-peec-lab.jpg" alt="Power electronics lab bench with oscilloscope and power supplies" loading="lazy"><figcaption>PEEC Lab bench</figcaption></figure>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-head">
+        <h3>Electronics/Avionics Team Lead</h3>
+        <span class="dates"> September 2025 — Present </span><b class="now">NOW</b>
+      </div>
+      <div class="tl-org"> Uncrewed Aerial Systems (UAS) at UCLA </div>
+      <ul>
+        <li>Led PCB development for a 4-member subteam on an eVTOL power distribution board, from component selection and schematic capture through layout, delivering passthrough and step-down power from batteries to ESCs and motors.</li>
+        <li>Developed test procedures and acceptance criteria for a custom IMU (accelerometer, magnetometer, gyroscope, microcontroller), troubleshooting and validating boards before flight.</li>
+        <li>Designed a load-cell thrust test stand that measures motor thrust (up to 5 kg) and torque to characterize motor KV, built for 6S battery setups.</li>
+        <li>Built electronic test benches and fixtures, and crimped and soldered flight-ready wiring harnesses with build documentation for repeatable assembly.</li>
+        <li>Configured live telemetry radio links relaying MAVLink messages between the ground station and flight controller.</li>
+      </ul>
+      <div class="fig-row"><figure style="--ar:1.073"><a href="img-thrust-stand.jpg" target="_blank" rel="noopener"><img src="img-thrust-stand.jpg" alt="Thrust test stand with a brushless motor mounted on aluminum extrusion and a plywood base" loading="lazy"></a><figcaption>Thrust test stand v1 (prototype)</figcaption></figure><figure style="--ar:1.486"><a href="img-thrust-cad.jpg" target="_blank" rel="noopener"><img src="img-thrust-cad.jpg" alt="CAD model of the thrust test stand with motor mount on an aluminum extrusion tower" loading="lazy"></a><figcaption>Thrust test stand CAD, v1 (prototype)</figcaption></figure></div>
+    </div>
+
+    <div class="tl-item nasa">
+      <div class="tl-head">
+        <h3> Electrical Engineer </h3>
+        <span class="dates"> Jan 2026 — May 2026</span>
+      </div>
+      <div class="tl-org"> NASA LSPACE Mission Concept Academy </div>
+      <ul>
+        <li>Developed and analyzed electrical subsystems for the lunar rover mission, leading a team of four electrical engineers on the power subsystem.</li>
+        <li>Created the power subsystem for generation, storage, distribution, and protection, researching Faraday cages, LiPo batteries, and radiation-tolerant components.</li>
+        <li>Selected an MPPT controller and evaluated DC-DC options (Vicor BCM/DCM, TI BQ series) for >95% efficiency, thermal performance, and radiation tolerance.</li>
+        <li>Completed a weighted power storage trade study (lithium-ion scored highest at 75%) and a verification matrix for the power subsystem requirements.</li>
+        <li>Earned the Spring 2026 L'SPACE Mission Concept Academy certificate with seven skill badges: Teaming, Requirements, Risk Management, Project Management, Systems, Heat Transfer, and Siemens NX CAD.</li>
+      </ul>
+      <div class="fig-row stack"><figure style="--ar:2.012"><a href="img-trade-study.png" target="_blank" rel="noopener"><img src="img-trade-study.png" alt="Power storage trade study table scoring lithium-ion batteries 75%, hydrogen fuel cells 56%, and nuclear power 46%" loading="lazy"></a><figcaption>Trade study</figcaption></figure><figure style="--ar:1.294"><a href="img-lspace-certificate.jpg" target="_blank" rel="noopener"><img src="img-lspace-certificate.jpg" alt="NASA L'SPACE Mission Concept Academy certificate of completion for Andrew Hinh, Spring 2026, with seven skill badges" loading="lazy"></a><figcaption>Certificate</figcaption></figure><figure style="--ar:4.270"><a href="img-verification-matrix.png" target="_blank" rel="noopener"><img src="img-verification-matrix.png" alt="Verification matrix listing electrical power requirements EPS-001 to EPS-007 with verification method, rationale, and preliminary verification plan" loading="lazy"></a><figcaption>Verification matrix</figcaption></figure></div>
+    </div>
+
+    <div class="pair">
+    <div class="tl-item">
+      <div class="tl-head">
+        <h3>Lead Mechanical Design and Outreach Manager</h3>
+        <span class="dates">Sep 2021 — Mar 2025</span>
+      </div>
+      <div class="tl-org">21980 Bread Pandas, FIRST Tech Challenge</div>
+      <ul>
+        <li>Led systems integration and task delegation across two subteams, helping raise $10,000 in sponsorships and reach a top 2% regional rank.</li>
+        <li>Designed, prototyped, and optimized mechanical components using constant spring force and servo torque estimations.</li>
+        <li>Taught programming and CAD in weekly mentoring workshops at elementary and middle schools.</li>
+      </ul>
+    </div>
+      <figure class="tl-photo"><img src="img-robot-21980.jpg" alt="Black FIRST Tech Challenge robot with number 21980 and intake and lift mechanisms" loading="lazy"><figcaption>Team 21980 robot</figcaption></figure>
+
+    <div class="tl-item">
+      <div class="tl-head">
+        <h3>Coding Instructor</h3>
+        <span class="dates">Aug 2024 — Aug 2025</span>
+      </div>
+      <div class="tl-org">Code Ninjas, Fountain Valley, CA</div>
+      <ul>
+        <li>Taught 20+ students weekly in 3D design, Minecraft modding, and Roblox game development.</li>
+        <li>Built Minecraft mods with McCreator, focusing on loop control and Java integration.</li>
+      </ul>
+    </div>
+    </div>
+
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="badge open"><i></i>Open to internships &amp; co-ops</div>
+  <h2>Have an opportunity,<br>a project, or a question?<span style="color:var(--blueprint);"> I'd love to hear about it.</span></h2>
+  <div class="contact-list">
+    <a href="mailto:andrewhinh123@g.ucla.edu">andrewhinh123@g.ucla.edu</a>
+    <a href="https://www.linkedin.com/in/andrew-hinh-7ba17a365/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+    <a href="resume.pdf">Résumé ↗</a>
+  </div>
+</footer>
+
+<div class="fine-print">
+  <span>2026 Andrew Hinh</span>
+  <span></span>
+</div>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('keydown', e => { if(e.key==='Escape'){ navLinks.classList.remove('open'); navToggle.setAttribute('aria-expanded','false'); }});
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);const el=e.target;
+    if(el.dataset.n){const n=+el.dataset.n,sfx=el.dataset.s||'';let i=0;const t=setInterval(()=>{el.textContent=(++i)+(i>=n?sfx:'');if(i>=n)clearInterval(t);},900/n);} else el.classList.add('in');}),{threshold:.15});
+  document.querySelectorAll('.stats b').forEach(b=>io.observe(b));
+  if(!matchMedia('(prefers-reduced-motion:reduce)').matches){document.documentElement.classList.add('js');document.querySelectorAll('.project-card,.tl-item,.skill').forEach(el=>io.observe(el));}
+</script>
+
+<dialog id="pd" aria-labelledby="pd-title"><div class="pd-head"><h3 class="pd-title" id="pd-title"></h3><div class="chips pd-chips"></div><button class="pd-close" type="button" aria-label="Close">&times;</button></div><div class="pd-content"></div></dialog>
+<dialog id="lb" aria-label="Enlarged image"><button aria-label="Close">&times;</button><img alt=""></dialog>
+<script>
+  const lb=document.getElementById('lb');
+  document.addEventListener('click',e=>{
+    const im=e.target.closest('.tl-photo img, .fig-row img, .hero-gallery img');
+    if(im){e.preventDefault(); const t=lb.querySelector('img'); t.src=im.currentSrc||im.src; t.alt=im.alt; lb.showModal();}
+    else if(e.target.closest('#lb')){lb.close();}
+  });
+</script>
+<script>
+  const pd=document.getElementById('pd');
+  document.querySelectorAll('.project-card .more').forEach(b=>b.addEventListener('click',()=>{
+    const c=b.closest('.project-card');
+    pd.querySelector('.pd-title').textContent=c.querySelector('h3').textContent;
+    pd.querySelector('.pd-chips').innerHTML=c.querySelector('.chips').innerHTML;
+    const box=pd.querySelector('.pd-content'); box.innerHTML=''; box.appendChild(c.querySelector('template').content.cloneNode(true));
+    pd.showModal(); pd.scrollTop=0;
+  }));
+  pd.addEventListener('click',e=>{ if(e.target===pd||e.target.closest('.pd-close')) pd.close(); });
+</script>
+</body>
+</html>
